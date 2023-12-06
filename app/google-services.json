@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "155965622145",
+    "firebase_url": "https://conectamovil-b1c0a-default-rtdb.firebaseio.com",
+    "project_id": "conectamovil-b1c0a",
+    "storage_bucket": "conectamovil-b1c0a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:155965622145:android:3111d77bfc1a8c3bd4ca80",
+        "android_client_info": {
+          "package_name": "com.example.conectamovil"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCs_pbvbajwy9odMQVDIqpfurjZvWtmoA8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
