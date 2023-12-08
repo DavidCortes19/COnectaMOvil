@@ -56,7 +56,6 @@
             app:layout_constraintTop_toBottomOf="@+id/identifierLayout" />
 
 
-
         <!-- New EditText for Medication Name -->
 
         <!-- New EditText for Patient Name -->
@@ -185,13 +184,29 @@
             app:layout_constraintTop_toBottomOf="@+id/btnRegistrar" />
 
         <Button
+            android:id="@+id/btnChatFirebase"
+            android:layout_width="121dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="142dp"
+            android:layout_marginTop="19dp"
+            android:layout_marginEnd="116dp"
+            android:layout_weight="1"
+            android:backgroundTint="#000000"
+            android:text="CHAT CON FIREBASE"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btniraChat" />
+
+        <Button
             android:id="@+id/btniraChat"
             android:layout_width="137dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_weight="1"
             android:backgroundTint="#000000"
-            android:text="Ir a Chat"
+            android:text="Ir a Chat Y a MQTT"
             android:textColor="@color/white"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -199,40 +214,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnRegistrar" />
 
-        <Button
-            android:id="@+id/btnBuscarContactos"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
-            android:layout_weight="1"
-            android:backgroundTint="#000000"
-            android:text="BUSCAR CONTACTOS"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-        <ListView
-            android:id="@+id/listViewContacts"
-            android:layout_width="397dp"
-            android:layout_height="349dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btniraChat"
-            app:layout_constraintVertical_bias="1.0" />
-
         <TextView
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="80dp"
-            android:text="Listado De Contactos"
+            android:text="S E L E C C I O N A R"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -245,7 +232,7 @@
             android:layout_height="45dp"
             android:layout_marginTop="8dp"
             android:background="?android:attr/selectableItemBackground"
-            android:src="@drawable/common_google_signin_btn_icon_dark"
+            android:src="@drawable/ic_account"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.021"
             app:layout_constraintStart_toStartOf="parent"

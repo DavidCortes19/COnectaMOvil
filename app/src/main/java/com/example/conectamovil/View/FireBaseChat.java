@@ -36,13 +36,42 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.example.conectamovil.Model.Mensajeria;
+import com.example.conectamovil.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import org.eclipse.paho.client.mqttv3.MqttMessage;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class FireBaseChat extends AppCompatActivity {
 
+    private static final String BROKER_URL = "tcp://test.mosquitto.org:1883";
+    private static final String CLIENT_ID = "android_chat";
+
+
+
+    private MqttHandler mqttHandler;
     private CircleImageView fotoPerfil;
     private TextView nombre;
     private RecyclerView rvMensajes;
     private EditText txtMensaje;
     private Button btnEnviar;
+
+    private Button btnConnect;
     private AdapterMensajes adapter;
     private ImageButton btnEnviarFoto;
 
@@ -59,11 +88,15 @@ public class FireBaseChat extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fire_base_chat);
 
+        mqttHandler = new MqttHandler();
+        mqttHandler.connect(BROKER_URL, CLIENT_ID);
+
         fotoPerfil = (CircleImageView) findViewById(R.id.fotoPerfil);
         nombre = (TextView) findViewById(R.id.nombre);
         rvMensajes = (RecyclerView) findViewById(R.id.rvMensajes);
         txtMensaje = (EditText) findViewById(R.id.txtMensaje);
         btnEnviar = (Button) findViewById(R.id.btnEnviar);
+        btnConnect = (Button) findViewById(R.id.btnConnect);
         btnEnviarFoto = (ImageButton) findViewById(R.id.btnEnviarFoto);
         fotoPerfilCadena = "";
 
@@ -76,9 +109,28 @@ public class FireBaseChat extends AppCompatActivity {
         rvMensajes.setLayoutManager(l);
         rvMensajes.setAdapter(adapter);
 
+
+
+        btnConnect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Conectar al broker MQTT
+                mqttHandler.connect(BROKER_URL, CLIENT_ID);
+                showToast("Conectado al broker");
+            }
+        });
+
+
         btnEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Publicar un mensaje
+                String message = txtMensaje.getText().toString();
+                String publishTopic = "node/david"; // Reemplaza con tu tema desead
+                publishMessage(publishTopic, message);
+
+                // Actualizar el EditText de suscripción con el mensaje publicado
+                txtMensaje.setText(message);
                 databaseReference.push().setValue(new MensajeEnviar(txtMensaje.getText().toString(),nombre.getText().toString(),fotoPerfilCadena,"1", ServerValue.TIMESTAMP));
                 txtMensaje.setText("");
             }
@@ -176,6 +228,40 @@ public class FireBaseChat extends AppCompatActivity {
                 }
             });
         }
+
     }
+    @Override
+    protected void onDestroy() {
+        mqttHandler.disconnect();
+        super.onDestroy();
+    }
+
+    private void publishMessage(String topic, String message) {
+        Toast.makeText(this, "Publicando mensaje: " + message, Toast.LENGTH_SHORT).show();
+        mqttHandler.publish(topic, message);
+    }
+
+    private void subscribeToTopic(String topic) {
+        Toast.makeText(this, "Suscrito al tema " + topic, Toast.LENGTH_SHORT).show();
+        mqttHandler.subscribe(topic);
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void messageArrived(String topic, MqttMessage message) throws Exception {
+        // Manejar el mensaje recibido
+        String receivedMessage = new String(message.getPayload());
+        showToast("Mensaje recibido: " + receivedMessage);
+
+        // Puedes abrir la nueva actividad aquí y pasar el mensaje como extra
+        Intent intent = new Intent(FireBaseChat.this, ChatReceiverActivity.class);
+        intent.putExtra("MESSAGE_KEY", receivedMessage);
+        startActivity(intent);
+    }
+
+
 }
+
 

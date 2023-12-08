@@ -63,6 +63,7 @@ public class activity_chat extends AppCompatActivity {
         txtContenido = findViewById(R.id.txtContenido);
         txttimestamp = findViewById(R.id.txttimestamp);
 
+
         Button btnRegresarContacto = findViewById(R.id.btnRegresarContacto);
 
         btnRegresarContacto.setOnClickListener(new View.OnClickListener() {
@@ -80,6 +81,37 @@ public class activity_chat extends AppCompatActivity {
         chatsList = new ArrayList<>();
         chatsAdapter = new ChatsAdapter(this, chatsList);
           // Asegúrate de tener un ListView en tu layout con el id correspondiente
+
+        btnConnect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Conectar al broker MQTT
+                mqttHandler.connect(BROKER_URL, CLIENT_ID);
+                showToast("Conectado al broker");
+            }
+        });
+
+        btnPublish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Publicar un mensaje
+                String message = editTextPublish.getText().toString();
+                String publishTopic = "node/david"; // Reemplaza con tu tema desead
+                publishMessage(publishTopic, message);
+
+                // Actualizar el EditText de suscripción con el mensaje publicado
+                editTextSubscribe.setText(message);
+            }
+        });
+
+        btnSubscribe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Suscribirse a un tema
+                String topic = editTextSubscribe.getText().toString();
+                subscribeToTopic(topic);
+            }
+        });
 
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,37 +199,7 @@ public class activity_chat extends AppCompatActivity {
 
 
 
-
-        btnConnect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Conectar al broker MQTT
-                mqttHandler.connect(BROKER_URL, CLIENT_ID);
-                showToast("Conectado al broker");
-            }
-        });
-
-        btnPublish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Publicar un mensaje
-                String message = editTextPublish.getText().toString();
-                String publishTopic = "node/movil"; // Reemplaza con tu tema desead 
-                publishMessage(publishTopic, message);
-
-                // Actualizar el EditText de suscripción con el mensaje publicado
-                editTextSubscribe.setText(message);
-            }
-        });
-
-        btnSubscribe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Suscribirse a un tema
-                String topic = editTextSubscribe.getText().toString();
-                subscribeToTopic(topic);
-            }
-        });
+        
 
     }
 

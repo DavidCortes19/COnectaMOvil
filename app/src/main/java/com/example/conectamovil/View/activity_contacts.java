@@ -25,6 +25,7 @@ import java.util.List;
 public class activity_contacts extends AppCompatActivity {
 
     Button btniraChat;
+    Button btnChatFirebasee;
     private EditText txtId, txtNombreContacto, txtcorreoContacto, txtedadContacto, txtnacionalidadContacto;
     private Button btnGuardar, btnEliminar, btnModificar, btnBuscarContactos;
     private DatabaseReference databaseReference;
@@ -43,14 +44,22 @@ public class activity_contacts extends AppCompatActivity {
         btnGuardar = findViewById(R.id.btnRegistrar);
         btnModificar = findViewById(R.id.btnModificar);
         btnEliminar = findViewById(R.id.btnEliminar);
-        btnBuscarContactos = findViewById(R.id.btnBuscarContactos);
+        btnChatFirebasee = findViewById(R.id.btnChatFirebase);
+
         txtcorreoContacto = findViewById(R.id.txtcorreoContacto);
         txtedadContacto = findViewById(R.id.txtedadContacto);
         txtnacionalidadContacto = findViewById(R.id.txtnacionalidadContacto);
-        listViewContacts = findViewById(R.id.listViewContacts);
 
         ImageButton btnPerfil = findViewById(R.id.btnPerfil);
 
+        btnChatFirebasee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Aquí inicia la actividad de perfil
+                Intent intent = new Intent(getApplicationContext(), FireBaseChat.class);
+                startActivity(intent);
+            }
+        });
         btnPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
